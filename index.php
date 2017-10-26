@@ -7,7 +7,7 @@ function processMessage($update) {
 
     switch($response ) {
         case 'hi':
-            $speech = "Hi, how are you doing !";
+            $speech = "Hi, how are you doing ! <img src='https://static.pexels.com/photos/5390/sunset-hands-love-woman.jpg' border='0' width='100' height='150'>";
             break;
         case 'bye':
             $speech = "Bye, ";
