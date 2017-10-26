@@ -1,6 +1,6 @@
 <?php
 
- $method = $_SERVER['REQUEST_URI'];
+ $method = $_SERVER['REQUEST_METHOD'];
 
  if( $method == 'POST') {
      $responseBody = file_get_contents('php://input');
