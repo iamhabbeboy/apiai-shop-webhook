@@ -1,29 +1,37 @@
 <?php
 
- $method = $_SERVER['REQUEST_METHOD'];
+function processMessage($update) {
 
- if( $method == 'POST') {
-     $responseBody = file_get_contents('php://input');
-     $json = json_decode($responseBody);
-     $text = $json->result->parameters->text;
-     
-     switch ($text) {
+    $response = $update['result']['parameters']['text'];
+    $speech = "";
+
+    switch($response ) {
         case 'hi':
-            $speech = "Hi, Nice to meet you";
+            $speech = "Hi, how are you doing !";
             break;
         case 'bye':
-            $speech = "Bye, good night";
+            $speech = "Bye, ";
             break;
         default:
-            $speech = "Sorry, I didnt get that. Please ask me something else.";
+            $speech = "Sorry, Not Available !";
             break;
-     }
+    }
 
-     $response = new \stdClass();
-     $response->speech = "";
-     $response->displayText = "";
-     $response->source = "webhook";
-     echo json_encode($response);
- } else {
-     echo 'Method Not Allowed !';
- }
+    sendMessage(array(
+        "source" => $update["result"]["source"],
+        "speech" => $speech,
+        "displayText" => $speech,
+        "contextOut" => array()
+    ));
+}
+ 
+function sendMessage($parameters) {
+    echo json_encode($parameters);
+}
+ 
+$update_response = file_get_contents("php://input");
+$update = json_decode($update_response, true);
+if (isset($update["result"]["parameters"])) {
+    processMessage($update);
+    //echo "Hello, world !";
+}
